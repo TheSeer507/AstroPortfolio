@@ -1,8 +1,10 @@
 ---
-import  "../layouts/MainLayout.astro"
-import MainLayout from "../layouts/MainLayout.astro";
----
+import {getCollection} from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro"
+import PostList from "../components/PostList.astro"
 
-<MainLayout title={'Hasan Patel'}>
-	<h1>AstroMain</h1>
-</MainLayout>
+const title = "Hasan Patel";
+const description = "Hasan Patel is a software engineer based in Panama City, PA. He is Data Scientist with a passion for building products and solutions";
+
+const post = await getCollection("blog");
+---

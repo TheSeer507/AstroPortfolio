@@ -1,0 +1,74 @@
+---
+import { Icon } from "astro-icon";
+import SocialMediaLink from "./SocialMediaLink.astro";
+import type { getStaticImageList } from "astro/dist/assets/internal";
+---
+
+<footer class="px-5vw py-6 text-xs">
+  <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 xl:flex-row">
+    <ul class="flex gap-2">
+      <SocialMediaLink name="prime:github" href="https://github.com/TheSeer507">Github</SocialMediaLink>
+      <SocialMediaLink name="prime:linkedin" href="https://www.linkedin.com/in/hasan-patel-rodriguez-476b1b191/">LinkedIn</SocialMediaLink>
+      <SocialMediaLink name="ph:envelope-simple-fill" href="mailto:mangafield@gmail.com">Email</SocialMediaLink>
+    </ul>
+    <div class="flex flex-col flex-wrap items-center justify-center gap-2 text-center sm:flex-row">
+      <div class="flex items-center gap-2 font-bold">
+        <span class="h-3 w-3">
+          <Icon name="ph:copyright-bold" />
+        </span>
+        Hasan Patel Rodriguez
+      </div>
+
+      <span class="hidden sm:inline">·</span>
+
+      <span>
+        Build with <a class="font-bold text-red decoration-2 underline-offset-4 hover:underline" href="https://astro.build/">Astro</a>
+        and <a class="font-bold text-blue decoration-2 underline-offset-4 hover:underline" href="https://tailwindcss.com/">TailwindCSS</a>
+        Special Thanks to <a class="font-bold text-blue decoration-2 underline-offset-4 hover:underline" href="https://github.com/piero-vic/">Piero Lescano </a>
+      </span>
+
+      <span class="hidden sm:inline">·</span>
+
+      <div class="flex gap-2 items-center">
+        <span class="w-3 h-3">
+          <Icon name="bi:spotify" class="text-green" />
+        </span>
+        <p id="current-track">
+          <span class="font-bold">Not Playing</span> - <span>Spotify</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener("DOMContentLoaded", async () => {
+    const CACHE_TIMEOUT = 50000;
+    const API_CALL_INTERVAL = 10000;
+
+    const get = async (url: string) => {
+      const now = new Date().getTime();
+      const prevResp = JSON.parse(window.localStorage.getItem(url));
+      if (prevResp && Math.abs(now - prevResp.time) < CACHE_TIMEOUT) {
+        return prevResp.data;
+      }
+      const resp = await fetch(url);
+      const json = await resp.json();
+      window.localStorage.setItem(url, JSON.stringify({ time: now, data: json }));
+      return json;
+    };
+
+    const setCurrentTrack = async () => {
+      const currentTrack = await get("/api/current-track");
+      const currentTrackContainer = document.getElementById("current-track");
+
+      currentTrackContainer.innerHTML = currentTrack.isPlaying
+        ? `<a class="font-bold text-green decoration-2 underline-offset-4 hover:underline" href="${currentTrack.songUrl}">${currentTrack.name}</a> - <span>${currentTrack.artist}</span>`
+        : `<span class="font-bold">Not Playing</span> - <span>Spotify</span>`;
+    };
+
+    await setCurrentTrack();
+
+    window.setInterval(setCurrentTrack, API_CALL_INTERVAL);
+  });
+</script>

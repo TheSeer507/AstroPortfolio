@@ -1,0 +1,47 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  image: string;
+  type: string;
+  imageAlt: string;
+}
+
+const {title, description, image, type, imageAlt} = Astro.props;
+
+const pageTtitle = title === "Hasan Patel" ? title : `${title} | Hasan Patel`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+const linkedin = "https://www.linkedin.com/in/hasan-patel-rodriguez-476b1b191/";
+const twitter = '@The_Seer507';
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Basic Info  -->
+
+{title ? <title>{pageTtitle}</title> : null}
+{description ? <meta name="description" content={description} /> : null}
+{image ? <meta name="image" content={imageURL.href} /> : null}
+
+<!-- Links -->
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+
+<!-- Open Graph tags -->
+<meta property="og:url" content={type} />
+<link rel="og.url" href={canonicalURL} />
+{title ? <meta name="og:title" content={title} /> : null}
+{description ? <meta name="og:description" content={description} /> : null}
+{image ? <meta name="og:image" content={imageURL.href} /> : null}
+
+<!-- Twitter tags -->
+<meta name="twitter:card" content={type == "article" && image ? "summary_large_image" : "summary"} />
+<meta name="twitter:site" content={twitter} />
+<meta name="twitter:creator" content={twitter} />
+{title ? <meta name="twitter:title" content={title} /> : null}
+{description ? <meta name="twitter:description" content={description} /> : null}
+{image ? <meta name="twitter:image" content={imageURL} /> : null}
+{imageAlt ? <meta name="twitter:image:alt" content={imageAlt} /> : null}
+<script></script>

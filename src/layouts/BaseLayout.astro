@@ -1,0 +1,28 @@
+---
+
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+export interface props {
+    title: string;
+    description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html>
+    <head>
+        <BaseHead title={title} description={description} image="logo.png" imageAlt="Hasan Patel Logo" type="website"/>
+    </head>
+    <body class="font-mono text-foreground bg-background flex flex-col justify-between h-screen">
+        <Header />
+        <main class="px-5vw py-6">
+            <div class="flex flex-col justify-center gap-3 max-w-5xl mx-auto">
+                <slot />
+            </div>
+        </main>
+        <Footer />
+    </body>
+</html>
