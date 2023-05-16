@@ -1,8 +1,15 @@
 ---
-import '../layouts/MainLayout.astro'
-import MainLayout from '../layouts/MainLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectList from "../components/ProjectList.astro";
+import { projects } from "../data";
+
+const title = "Projects";
+const description = "Software developer focused on building CLI tools and web applications.";
+const webProjects = projects.filter(p => p.category === "web");
+const cliProjects = projects.filter(p => p.category === "cli");
 ---
 
-<MainLayout title={'Projects'}>
-    <h1>Projects</h1>
-</MainLayout>
+<BaseLayout title={title} description={description}>
+  <ProjectList projects={webProjects} heading="Web" />
+  <ProjectList projects={cliProjects} heading="Terminal" />
+</BaseLayout>

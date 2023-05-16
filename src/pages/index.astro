@@ -8,3 +8,30 @@ const description = "Hasan Patel is a software engineer based in Panama City, PA
 
 const post = await getCollection("blog");
 ---
+
+<BaseLayout title={title} description={description}>
+	<section class="max-w-screen-md flex flex-col gap-3">
+		<h1 class="text-5xl font-black text-blue">{title}</h1>
+		<p>
+		  <span class="text-red">Front-End</span>
+		  <span class="text-cyan">Back-End</span>
+		  <span class="text-yellow">Data Science</span>
+		  <span class="text-blue">AI/ML</span>
+		  <span class="text-green">Python</span>
+		</p>
+		<p class="max-w-prose">
+		  I'm a Software Developer and Data Scientist from Panama. I <a
+			href="/projects"
+			class="font-semibold text-green decoration-2 underline-offset-4 hover:underline"
+			>build</a
+		  > for the web and <a
+			href="/blog"
+			class="font-semibold text-green decoration-2 underline-offset-4 hover:underline"
+			>write</a
+		  > about it sometimes. Passionate about Data Analysis and Artificial Intelligence.
+		  Love Video Games and Metal Music 🤘. Keen interest in History and Arts.
+		</p>
+	  </section>
+	
+	  <PostList heading="Latest Articles" posts={posts} dateFormat="MMM D, YYYY" />
+</BaseLayout>

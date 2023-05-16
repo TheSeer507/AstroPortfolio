@@ -1,0 +1,25 @@
+---
+import dayjs from "dayjs";
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+
+const title = "Blog";
+const description = "Technical articles, code snippets, and writings on the things I'm learning.";
+
+const posts = await getCollection("blog");
+
+const posts21 = posts.filter(post => dayjs(post.data.pubDate).format("YYYY") == "2021");
+const posts22 = posts.filter(post => dayjs(post.data.pubDate).format("YYYY") == "2022");
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="max-w-screen-md flex flex-col gap-3">
+    <h1 class="text-5xl font-black text-green">{title}</h1>
+    <p class="max-w-prose">{description}</p>
+  </section>
+
+  <PostList heading="2022" posts={posts22} dateFormat="MMM D" />
+  <PostList heading="2021" posts={posts21} dateFormat="MMM D" />
+</BaseLayout>
